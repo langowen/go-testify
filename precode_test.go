@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"net/http"
@@ -30,7 +29,7 @@ func TestMainHandlerWhenWrongCity(t *testing.T) {
 	handler.ServeHTTP(responseRecorder, req)
 
 	require.Equal(t, http.StatusBadRequest, responseRecorder.Code)
-	fmt.Println("wrong city value")
+	require.Equal(t, responseRecorder.Body.String(), "wrong city value")
 }
 
 func TestMainHandlerWhenCountMoreThanTotal(t *testing.T) {
@@ -46,5 +45,5 @@ func TestMainHandlerWhenCountMoreThanTotal(t *testing.T) {
 	body := responseRecorder.Body.String()
 	list := strings.Split(body, ",")
 
-	assert.Equal(t, len(list), totalCount)
+	assert.Len(t, list, totalCount)
 }
